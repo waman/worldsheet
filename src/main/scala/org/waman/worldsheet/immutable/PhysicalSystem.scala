@@ -1,6 +1,10 @@
 package org.waman.worldsheet.immutable
 
-trait PhysicalSystem[S <: PhysicalSystem[S]] {
+trait PhysicalSystem{
 
-  def next():S
+  type State
+  val initialState: State
+  val stateMapper: (State => State)
+
+  def createPhysicalProcess(): Stream[State] = Stream.iterate(initialState)(stateMapper)
 }
