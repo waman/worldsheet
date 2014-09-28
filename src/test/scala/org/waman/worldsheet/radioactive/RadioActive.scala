@@ -1,6 +1,7 @@
-package org.waman.worldsheet.immutable
+package org.waman.worldsheet.radioactive
 
-import org.waman.worldsheet.Util.dec
+import org.waman.worldsheet.SimulationUtil.dec1
+import org.waman.worldsheet.{SimplePhysicalSimulation, SimplePhysicalSystem, StateMapper}
 
 case class RadioActiveState(t:BigDecimal, n:Double)
 
@@ -18,7 +19,7 @@ class RadioActiveSystem(n0: Double, lambda: Double)
     extends SimplePhysicalSystem{
 
   override type State = RadioActiveState
-  override val initialState = RadioActiveState(dec(0.0), n0)
+  override val initialState = RadioActiveState(dec1(0.0), n0)
   override val stateMapper = RadioActiveMapper(0.1, lambda)
 }
 

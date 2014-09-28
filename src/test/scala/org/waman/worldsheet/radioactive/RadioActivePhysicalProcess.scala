@@ -1,4 +1,4 @@
-package org.waman.worldsheet.immutable
+package org.waman.worldsheet.radioactive
 
 object RadioActivePhysicalProcess extends App{
 

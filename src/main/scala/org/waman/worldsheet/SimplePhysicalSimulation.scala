@@ -1,4 +1,4 @@
-package org.waman.worldsheet.immutable
+package org.waman.worldsheet
 
 trait SimplePhysicalSimulation extends PhysicalSimulation{
 
