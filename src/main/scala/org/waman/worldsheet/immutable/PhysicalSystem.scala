@@ -3,8 +3,11 @@ package org.waman.worldsheet.immutable
 trait PhysicalSystem{
 
   type State
-  val initialState: State
-  val stateMapper: (State => State)
+  type Params
 
-  def createPhysicalProcess(): Stream[State] = Stream.iterate(initialState)(stateMapper)
+  val initialStateFactory: Params => State
+  val stateMapperFactory: Params => (State => State)
+
+  def createPhysicalProcess(params: Params): Stream[State] =
+    Stream.iterate(initialStateFactory(params))(stateMapperFactory(params))
 }

@@ -1,30 +1,35 @@
 package org.waman.worldsheet.immutable
 
-import org.waman.worldsheet.PhysicalSimulation
 import org.waman.worldsheet.Util.dec
 
-case class NewtonCoolingState(t:BigDecimal, T:Double)
+case class NewtonCoolingState(time:BigDecimal, temper:Double)
 
-class NewtonCoolingSystem(T0: Double, Tex: Double) extends PhysicalSystem{
+class NewtonCoolingSystem extends PhysicalSystem {
 
-  type State = NewtonCoolingState
+  override type State = NewtonCoolingState
+  override type Params = (Double, BigDecimal, Double) // (temper0, dt, temperEx)
 
-  val dt = dec(0.1)
+  override val initialStateFactory: (Params => State) =
+    params => NewtonCoolingState(dec(0.0), params._1)
 
-  val initialState = NewtonCoolingState(dec(0.0), T0)
-  val stateMapper = (s: NewtonCoolingState) => NewtonCoolingState(
-      s.t + dt,
-      s.T - 0.03 * (s.T - Tex) * dt.doubleValue()
-    )
+  override val stateMapperFactory: (Params => (State => State)) =
+    params => s => {
+      val (_, dt, temperEx) = params
+      new State(
+        s.time + dt,
+        s.temper - 0.03 * (s.temper - temperEx) * dt.doubleValue()
+      )
+    }
 }
 
 case class NewtonCoolingData(time:BigDecimal, temperature:Double)
 
 class NewtonCoolingSimulation extends PhysicalSimulation{
 
-  type State = NewtonCoolingState
-  type Data = NewtonCoolingData
+  override type State = NewtonCoolingState
+  override type Params = (Double, BigDecimal, Double)  // (temper0, dt, temperEx)
+  override type Data = NewtonCoolingData
 
-  val physicalSystem = new NewtonCoolingSystem(82.3, 17.0)
-  val observer = (s:State) => new Data(s.t, s.T)
+  override val physicalSystem = new NewtonCoolingSystem
+  override val observer = (s:State) => new Data(s.time, s.temper)
 }
