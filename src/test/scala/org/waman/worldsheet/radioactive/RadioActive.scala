@@ -21,6 +21,7 @@ class RadioActiveSystem(n0: Double, lambda: Double)
   override type State = RadioActiveState
   override val initialState = RadioActiveState(dec1(0.0), n0)
   override val stateMapper = RadioActiveMapper(0.1, lambda)
+  override val stateClass: Class[State] = classOf[RadioActiveState]
 }
 
 case class RadioActiveData(time:BigDecimal, numberOfNuclei:Double)

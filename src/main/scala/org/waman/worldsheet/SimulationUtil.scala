@@ -1,6 +1,7 @@
 package org.waman.worldsheet
 
 import java.math.MathContext
+import scala.reflect.runtime.universe._
 
 object SimulationUtil {
   
@@ -13,4 +14,14 @@ object SimulationUtil {
   def dec2(d: Double) = BigDecimal(d, mc2)
   def dec3(d: Double) = BigDecimal(d, mc3)
   def dec4(d: Double) = BigDecimal(d, mc4)
+
+  // Reflection Utilities
+  lazy val mirror: Mirror = runtimeMirror(getClass.getClassLoader)
+
+//  def getFieldSymbol[T](name: String): TermSymbol = typeOf[T].decl(TermName(name)).asTerm
+//
+//  def getMethodSymbol[T](name: String): MethodSymbol = typeOf[T].decl(TermName(name)).asMethod
+//
+//  def getField(obj: Any, field: TermSymbol): FieldMirror = mirror.reflect(obj).reflectField(field)
+//  def getMethod(obj: Any, method: MethodSymbol): MethodMirror = mirror.reflect(obj).reflectMethod(method)
 }

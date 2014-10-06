@@ -1,7 +1,6 @@
 package org.waman.worldsheet.newtoncooling
 
-import org.waman.worldsheet.SimulationUtil
-import SimulationUtil.dec1
+import org.waman.worldsheet.SimulationUtil.dec1
 
 object NewtonCoolingPhysicalProcess extends App{
 

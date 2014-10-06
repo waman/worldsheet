@@ -7,6 +7,7 @@ import org.waman.worldsheet.SimplePhysicalSystem
 class SimpleNewtonCoolingSystem extends SimplePhysicalSystem{
 
   override type State = NewtonCoolingState
+  override val stateClass: Class[State] = classOf[NewtonCoolingState]
 
   override val initialState = NewtonCoolingState(dec1(0.0), 82.3)
   override val stateMapper = (s:State) => new State(
