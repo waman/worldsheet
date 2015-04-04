@@ -4,7 +4,7 @@ version in Global := "1.0"
 
 organization in Global := "org.waman.worldsheet"
 
-scalaVersion in Global := "2.11.4"
+scalaVersion in Global := "2.11.6"
 
 
 //***** Custom settings *****

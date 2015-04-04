@@ -7,5 +7,20 @@
       <parameter value="UTF-8" />
       <parameter value="-language:experimental.macros" />
     </parameters>
+    <profile name="SBT 1" modules="root,core">
+      <option name="deprecationWarnings" value="true" />
+      <parameters>
+        <parameter value="-encoding" />
+        <parameter value="UTF-8" />
+      </parameters>
+    </profile>
+    <profile name="SBT 2" modules="macroProj">
+      <option name="deprecationWarnings" value="true" />
+      <parameters>
+        <parameter value="-encoding" />
+        <parameter value="UTF-8" />
+        <parameter value="-language:experimental.macros" />
+      </parameters>
+    </profile>
   </component>
 </project>
