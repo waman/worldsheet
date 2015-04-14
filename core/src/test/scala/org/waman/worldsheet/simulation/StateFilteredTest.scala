@@ -15,7 +15,7 @@ class StateFilteredSimulation extends AbstractFibonacciSimulation
 class StateFilteredTest extends FlatSpec with Matchers {
 
   "A FilterState trait" should "be able to define well" in {
-    val series = new StateFilteredSimulation().newDataSeq(0, 1)
+    val series = new StateFilteredSimulation().newDataSeq()
     series.take(5) should be (Seq(0, 2, 8, 34, 144))
   }
 }

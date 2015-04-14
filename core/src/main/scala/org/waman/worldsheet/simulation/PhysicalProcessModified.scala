@@ -7,5 +7,5 @@ trait PhysicalProcessModified extends PhysicalSimulation{
   protected def modifyPhysicalProcess(s:Seq[State]):Seq[State]
 
   override
-  def newPhysicalProcess(params:Params) = modifyPhysicalProcess(super.newPhysicalProcess(params))
+  def newPhysicalProcess(param: Param) = modifyPhysicalProcess(super.newPhysicalProcess(param))
 }

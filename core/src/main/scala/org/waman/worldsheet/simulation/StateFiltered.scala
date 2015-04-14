@@ -7,6 +7,6 @@ trait StateFiltered extends PhysicalSimulation{
   val stateFilter: State => Boolean
 
   abstract override
-  def newPhysicalProcess(params:Params):Seq[State] =
-    super.newPhysicalProcess(params).filter(this.stateFilter)
+  def newPhysicalProcess(param: Param):Seq[State] =
+    super.newPhysicalProcess(param).filter(this.stateFilter)
 }

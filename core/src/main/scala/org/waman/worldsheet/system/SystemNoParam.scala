@@ -2,15 +2,15 @@ package org.waman.worldsheet.system
 
 import org.waman.worldsheet.PhysicalSystem
 
-trait SystemNoParams extends PhysicalSystem{
+trait SystemNoParam extends PhysicalSystem{
 
-  type Params = Unit
+  type Param = Unit
 
   val initialState: State
-  protected def newInitialState(params:Params):State = initialState
+  protected def newInitialState(param: Param):State = initialState
 
   val stateEvolver: State => State
-  protected def newStateEvolver(params:Params) = stateEvolver
+  protected def newStateEvolver(param: Param) = stateEvolver
 
   def newPhysicalProcess(): Seq[State] = newPhysicalProcess(())
 }

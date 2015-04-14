@@ -6,9 +6,9 @@ class ConsoleOutputter[D](formatter:D => String) extends DataOutputter[D]{
 
   def this() = this(data => data.toString)
 
-  def setUp(): Unit = ()
+  def prepare(): Unit = ()
 
   def output(data: D): Unit = println(formatter(data))
 
-  def tearDown(): Unit = ()
+  def dispose(): Unit = ()
 }

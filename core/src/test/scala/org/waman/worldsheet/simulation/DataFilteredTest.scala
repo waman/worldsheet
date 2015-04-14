@@ -14,7 +14,7 @@ class DataFilteredSimulation extends AbstractFibonacciSimulation
 class DataFilteredTest extends FlatSpec with Matchers {
 
   "A FilterData trait" should "be able to define well" in {
-    val series = new DataFilteredSimulation().newDataSeq(0, 1)
+    val series = new DataFilteredSimulation().newDataSeq()
     series.take(5) should be (Seq(1, 1, 3, 5, 13))
   }
 }

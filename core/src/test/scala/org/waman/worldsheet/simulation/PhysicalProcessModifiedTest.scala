@@ -15,7 +15,7 @@ class PhysicalProcessModifiedSimulation extends AbstractFibonacciSimulation
 class PhysicalProcessModifiedTest extends FlatSpec with Matchers {
 
   "A PhysicalProcessModified trait" should "be able to define well" in {
-    val series = new PhysicalProcessModifiedSimulation().newDataSeq(0, 1)
+    val series = new PhysicalProcessModifiedSimulation().newDataSeq()
     series should be (Seq(0, 1, 1, 2, 3))
   }
 }

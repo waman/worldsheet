@@ -6,5 +6,5 @@ trait DataSeqModified extends PhysicalSimulation{
 
   protected def modifyDataSeq(s:Seq[Data]):Seq[Data]
 
-  override def newDataSeq(params:Params):Seq[Data] = modifyDataSeq(super.newDataSeq(params))
+  override def newDataSeq(param: Param):Seq[Data] = modifyDataSeq(super.newDataSeq(param))
 }

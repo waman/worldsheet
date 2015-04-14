@@ -7,17 +7,17 @@ case class FibonacciState(no: Int, current: Int, next: Int)
 class FibonacciSystem extends PhysicalSystem{
 
   type State = FibonacciState
-  type Params = (Int, Int)
+  type Param = (Int, Int)
 
-  protected def newInitialState(params:Params) = FibonacciState(0, params._1, params._2)
+  protected def newInitialState(param: (Int, Int)) = FibonacciState(0, param._1, param._2)
 
-  protected def newStateEvolver(params:Params) = s => FibonacciState(s.no + 1, s.next, s.current + s.next)
+  protected def newStateEvolver(param: (Int, Int)) = s => FibonacciState(s.no + 1, s.next, s.current + s.next)
 }
 
 abstract class AbstractFibonacciSimulation extends PhysicalSimulation{
 
   type State = FibonacciState
-  type Params = (Int, Int)
+  type Param = (Int, Int)
 
   val physicalSystem = new FibonacciSystem
 }

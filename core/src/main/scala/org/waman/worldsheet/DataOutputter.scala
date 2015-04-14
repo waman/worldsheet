@@ -2,7 +2,7 @@ package org.waman.worldsheet
 
 trait DataOutputter[D]{
 
-  def setUp()
+  def prepare()
   def output(data:D)
-  def tearDown()
+  def dispose()
 }

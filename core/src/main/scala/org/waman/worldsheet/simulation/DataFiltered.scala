@@ -7,6 +7,6 @@ trait DataFiltered extends PhysicalSimulation{
    val dataFilter: Data => Boolean
 
    abstract override
-   def newDataSeq(params:Params):Seq[Data] =
-     super.newDataSeq(params).filter(this.dataFilter)
+   def newDataSeq(param: Param):Seq[Data] =
+     super.newDataSeq(param).filter(this.dataFilter)
  }
