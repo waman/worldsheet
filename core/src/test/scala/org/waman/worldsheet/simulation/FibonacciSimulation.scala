@@ -1,23 +1,22 @@
 package org.waman.worldsheet.simulation
 
+import org.waman.worldsheet.system.SystemNoParam
 import org.waman.worldsheet.{PhysicalSimulation, PhysicalSystem}
 
-case class FibonacciState(no: Int, current: Int, next: Int)
+case class FibonacciState(current: Int, next: Int)
 
-class FibonacciSystem extends PhysicalSystem{
+class FibonacciSystem extends PhysicalSystem with SystemNoParam{
 
   type State = FibonacciState
-  type Param = (Int, Int)
 
-  protected def newInitialState(param: (Int, Int)) = FibonacciState(0, param._1, param._2)
+  override val initialState = FibonacciState(0, 1)
 
-  protected def newStateEvolver(param: (Int, Int)) = s => FibonacciState(s.no + 1, s.next, s.current + s.next)
+  override val stateEvolver = (s:State) => FibonacciState(s.next, s.current + s.next)
 }
 
-abstract class AbstractFibonacciSimulation extends PhysicalSimulation{
+abstract class AbstractFibonacciSimulation extends PhysicalSimulation with NoParam{
 
-  type State = FibonacciState
-  type Param = (Int, Int)
+  override type State = FibonacciState
 
-  val physicalSystem = new FibonacciSystem
+  override val physicalSystem = new FibonacciSystem
 }

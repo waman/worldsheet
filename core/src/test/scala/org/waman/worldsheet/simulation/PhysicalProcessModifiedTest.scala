@@ -3,13 +3,13 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{Matchers, FlatSpec}
 
 class PhysicalProcessModifiedSimulation extends AbstractFibonacciSimulation
-    with PhysicalProcessModified with NoOutput{
+    with PhysicalProcessModified{
 
-  type Data = Int
+  override type Data = Int
 
-  val observer = (s:State) => s.current
+  override val observer = (s:State) => s.current
 
-  protected def modifyPhysicalProcess(s:Seq[State]) = s.take(5)
+  override def modifyPhysicalProcess(s:Seq[State]) = s.take(5)
 }
 
 class PhysicalProcessModifiedTest extends FlatSpec with Matchers {

@@ -3,13 +3,13 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{Matchers, FlatSpec}
 
 class DataSeqModifiedSimulation extends AbstractFibonacciSimulation
-    with DataSeqModified with NoOutput{
+    with DataSeqModified{
 
-  type Data = Int
+  override type Data = Int
 
-  val observer = (s:State) => s.current
+  override val observer = (s:State) => s.current
 
-  protected def modifyDataSeq(s:Seq[Data]) = s.take(6)
+  override def modifyDataSeq(s:Seq[Data]) = s.take(6)
 }
 
 class DataSeqModifiedTest extends FlatSpec with Matchers {

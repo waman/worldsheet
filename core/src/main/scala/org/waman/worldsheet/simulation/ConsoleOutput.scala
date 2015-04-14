@@ -5,9 +5,9 @@ import org.waman.worldsheet.outputter.ConsoleOutputter
 
 trait ConsoleOutput extends PhysicalSimulation{
 
-  protected def formatter:Data => String = (data:Data) => data.toString
+  protected def formatter:(Data => String) = (data:Data) => data.toString
 
-  val outputterProviders = List(
-    (params:Param) => new ConsoleOutputter[Data](formatter)
+  override val outputterProviders = List(
+    (param:Param) => new ConsoleOutputter[Data](formatter)
   )
 }

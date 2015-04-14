@@ -4,11 +4,11 @@ import org.waman.worldsheet.{DataOutputter, PhysicalSimulation}
 
 trait NoParam extends PhysicalSimulation{
 
-  type Param = Unit
+  override type Param = Unit
 
-  protected val outputters: List[DataOutputter[Data]]
+  protected val outputters: List[DataOutputter[Data]] = Nil
 
-  def outputterProviders: List[Param => DataOutputter[Data]] =
+  override val outputterProviders: List[Param => DataOutputter[Data]] =
     this.outputters.map(out => (param:Param) => out)
 
   def newPhysicalProcess(): Seq[State] = newPhysicalProcess(())

@@ -3,13 +3,13 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{FlatSpec, Matchers}
 
 class StateFilteredSimulation extends AbstractFibonacciSimulation
-    with StateFiltered with NoOutput{
+    with StateFiltered{
 
-  type Data = Int
+  override type Data = Int
 
-  val observer = (s:State) => s.current
+  override val observer = (s:State) => s.current
 
-  val stateFilter = (s:State) => s.current % 2 == 0
+  override val stateFilter = (s:State) => s.current % 2 == 0
 }
 
 class StateFilteredTest extends FlatSpec with Matchers {

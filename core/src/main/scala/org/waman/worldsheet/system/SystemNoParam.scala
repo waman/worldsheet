@@ -2,7 +2,7 @@ package org.waman.worldsheet.system
 
 import org.waman.worldsheet.PhysicalSystem
 
-trait SystemNoParam extends PhysicalSystem{
+trait SystemNoParam { this:PhysicalSystem =>
 
   type Param = Unit
 
