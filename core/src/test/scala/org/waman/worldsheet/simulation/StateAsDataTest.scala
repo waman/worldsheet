@@ -25,7 +25,7 @@ class StateAsDataSimulation extends PhysicalSimulation
 class StateAsDataTest extends FlatSpec with Matchers {
 
   "A StateAsData trait " should "be able to define well" in {
-    val series = new StateAsDataSimulation().newDataSeq(1, 2)
-    series.map(_.current).take(5) should be (Seq(1, 2, 3, 5, 8))
+    val dataSeq = new StateAsDataSimulation().newDataSeq(1, 2)
+    dataSeq.map(_.current).take(5) should be (Seq(1, 2, 3, 5, 8))
   }
 }
