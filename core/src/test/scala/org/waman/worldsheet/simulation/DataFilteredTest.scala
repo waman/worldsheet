@@ -5,9 +5,6 @@ import org.scalatest.{Matchers, FlatSpec}
 class DataFilteredSimulation extends AbstractFibonacciSimulation
     with DataFiltered{
 
-  override type Data = Int
-  override val observer = (s:State) => s.current
-
   override val dataFilter = (data:Data) => data % 2 == 1
 }
 

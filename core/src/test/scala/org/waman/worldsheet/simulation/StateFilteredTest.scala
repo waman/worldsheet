@@ -5,10 +5,6 @@ import org.scalatest.{FlatSpec, Matchers}
 class StateFilteredSimulation extends AbstractFibonacciSimulation
     with StateFiltered{
 
-  override type Data = Int
-
-  override val observer = (s:State) => s.current
-
   override val stateFilter = (s:State) => s.current % 2 == 0
 }
 

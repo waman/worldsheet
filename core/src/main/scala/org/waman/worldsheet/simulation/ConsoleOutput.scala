@@ -8,6 +8,6 @@ trait ConsoleOutput extends PhysicalSimulation{
   protected def formatter:(Data => String) = (data:Data) => data.toString
 
   override val outputterProviders = List(
-    (param:Param) => new ConsoleOutputter[Data](formatter)
+    (param:Param) => ConsoleOutputter[Data](formatter)
   )
 }

@@ -13,5 +13,17 @@ trait NoParam extends PhysicalSimulation{
 
   def newPhysicalProcess(): Seq[State] = newPhysicalProcess(())
   def newDataSeq(): Seq[Data] = newDataSeq(())
-  def simulate(): Unit = simulate(())
+
+
+  def simulateWhileStateIs(takeWhile:State => Boolean): Unit =
+    simulateWhileStateIs((), takeWhile)
+
+  def simulateWithPhysicalProcessModified(stateFilter:Seq[State] => Seq[State]):Unit =
+    simulateWithPhysicalProcessModified()(stateFilter)
+
+  def simulateWhileDataIs(takeWhile:Data => Boolean): Unit =
+    simulateWhileDataIs((), takeWhile)
+
+  def simulateWithDataSeqModified(dataFilter:Seq[Data] => Seq[Data]):Unit =
+    simulateWithDataSeqModified(())(dataFilter)
 }

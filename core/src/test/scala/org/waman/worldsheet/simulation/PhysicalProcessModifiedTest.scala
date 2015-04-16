@@ -5,10 +5,6 @@ import org.scalatest.{Matchers, FlatSpec}
 class PhysicalProcessModifiedSimulation extends AbstractFibonacciSimulation
     with PhysicalProcessModified{
 
-  override type Data = Int
-
-  override val observer = (s:State) => s.current
-
   override def modifyPhysicalProcess(s:Seq[State]) = s.take(5)
 }
 

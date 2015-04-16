@@ -5,10 +5,6 @@ import org.scalatest.{Matchers, FlatSpec}
 class DataSeqModifiedSimulation extends AbstractFibonacciSimulation
     with DataSeqModified{
 
-  override type Data = Int
-
-  override val observer = (s:State) => s.current
-
   override def modifyDataSeq(s:Seq[Data]) = s.take(6)
 }
 

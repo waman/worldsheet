@@ -17,6 +17,8 @@ class FibonacciSystem extends PhysicalSystem with SystemNoParam{
 abstract class AbstractFibonacciSimulation extends PhysicalSimulation with NoParam{
 
   override type State = FibonacciState
+  override type Data = Int
 
   override val physicalSystem = new FibonacciSystem
+  override val observer = (s:State) => s.current
 }
