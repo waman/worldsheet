@@ -1,7 +1,7 @@
-package org.waman.worldsheet.simulation
+package org.waman.worldsheet
 
+import org.waman.worldsheet.simulation.NoParam
 import org.waman.worldsheet.system.SystemNoParam
-import org.waman.worldsheet.{PhysicalSimulation, PhysicalSystem}
 
 case class FibonacciState(current: Int, next: Int)
 

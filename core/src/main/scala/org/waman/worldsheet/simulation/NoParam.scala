@@ -6,24 +6,26 @@ trait NoParam extends PhysicalSimulation{
 
   override type Param = Unit
 
-  protected val outputters: List[DataOutputter[Data]] = Nil
+  protected def outputters: List[DataOutputter[Data]] = Nil
 
-  override val outputterProviders: List[Param => DataOutputter[Data]] =
+  override def outputterProviders: List[Param => DataOutputter[Data]] =
     this.outputters.map(out => (param:Param) => out)
 
   def newPhysicalProcess(): Seq[State] = newPhysicalProcess(())
   def newDataSeq(): Seq[Data] = newDataSeq(())
 
+  //***** simulate methods *****
+  def simulate():Unit = simulate(())
 
-  def simulateWhileStateIs(takeWhile:State => Boolean): Unit =
-    simulateWhileStateIs((), takeWhile)
+  def simulateWhileState(takeWhile:State => Boolean): Unit =
+    simulateWhileState((), takeWhile)
 
-  def simulateWithPhysicalProcessModified(stateFilter:Seq[State] => Seq[State]):Unit =
-    simulateWithPhysicalProcessModified()(stateFilter)
+  def simulateWithPhysicalProcess(stateFilter:Seq[State] => Seq[State]):Unit =
+    simulateWithPhysicalProcess()(stateFilter)
 
-  def simulateWhileDataIs(takeWhile:Data => Boolean): Unit =
-    simulateWhileDataIs((), takeWhile)
+  def simulateWhileData(takeWhile:Data => Boolean): Unit =
+    simulateWhileData((), takeWhile)
 
-  def simulateWithDataSeqModified(dataFilter:Seq[Data] => Seq[Data]):Unit =
-    simulateWithDataSeqModified(())(dataFilter)
+  def simulateWithDataSeq(dataFilter:Seq[Data] => Seq[Data]):Unit =
+    simulateWithDataSeq(())(dataFilter)
 }

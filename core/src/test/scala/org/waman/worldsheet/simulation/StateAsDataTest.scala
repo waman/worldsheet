@@ -1,7 +1,7 @@
 package org.waman.worldsheet.simulation
 
 import org.scalatest._
-import org.waman.worldsheet.{PhysicalSystem, PhysicalSimulation}
+import org.waman.worldsheet.{FibonacciState, PhysicalSystem, PhysicalSimulation}
 
 class StateAsDataSimulation extends PhysicalSimulation
     with StateAsData{
