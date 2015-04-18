@@ -8,7 +8,7 @@ class ConsoleOutputSimulation extends AbstractFibonacciSimulation
 
 class ConsoleOutputTest extends FlatSpec with Matchers {
 
-  "A ConsoleOutput trait" should "be able to define well" in {
+  "A ConsoleOutput" should "be able to define well" in {
     new ConsoleOutputSimulation().simulateWhileState(_.current <= 100)
   }
 }

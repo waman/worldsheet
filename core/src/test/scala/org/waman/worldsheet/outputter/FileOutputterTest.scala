@@ -1,22 +1,20 @@
 package org.waman.worldsheet.outputter
 
-import java.nio.charset.Charset
-import java.nio.file.Paths
-
 import org.scalatest.{FlatSpec, Matchers}
-import org.waman.worldsheet.{DataOutputter, AbstractFibonacciSimulation}
+import org.waman.worldsheet.{AbstractFibonacciSimulation, DataOutputter}
 
-class FileOutputterSimulation extends AbstractFibonacciSimulation{
+class FileOutputterSimulation(fileName:String) extends AbstractFibonacciSimulation{
 
   override protected val outputters: List[DataOutputter[Data]] = List(
-    ConsoleOutputter(),
-    FileOutputter(Paths.get("./fib.txt"), Charset.forName("UTF-8"), true, _.toString)
+    ConsoleOutputter(dataFormatter),
+    FileOutputter(fileName, isOverride=true)
   )
 }
 
 class FileOutputterTest extends FlatSpec with Matchers {
 
-  "A FileOutputter trait" should "be able to define well" in {
-    new FileOutputterSimulation().simulateWhileState(_.current <= 100)
+  "A FileOutputter" should "be able to define well" in {
+    val fileName = System.getProperty("user.home")+"/fib.txt"
+    new FileOutputterSimulation(fileName).simulateWhileState(_.current <= 100)
   }
 }

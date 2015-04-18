@@ -13,7 +13,6 @@ class ConsoleOutputter[D](formatter:D => String) extends DataOutputter[D]{
 
 object ConsoleOutputter{
 
-  def apply[D](): ConsoleOutputter[D] = apply[D]((data:D) => data.toString)
-
-  def apply[D](formatter:D => String): ConsoleOutputter[D] = new ConsoleOutputter[D](formatter)
+  def apply[D](formatter:D => String):ConsoleOutputter[D] =
+    new ConsoleOutputter[D](formatter)
 }

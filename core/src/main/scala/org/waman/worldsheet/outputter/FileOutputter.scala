@@ -2,7 +2,7 @@ package org.waman.worldsheet.outputter
 
 import java.io.BufferedWriter
 import java.nio.charset.Charset
-import java.nio.file.{Files, Path}
+import java.nio.file.{Paths, Files, Path}
 import java.nio.file.StandardOpenOption._
 
 import org.waman.worldsheet.DataOutputter
@@ -39,6 +39,17 @@ object FileOutputter{
 
   val sep = System.getProperty("line.separator")
 
-  def apply[D](path:Path, charset:Charset, isOverride:Boolean, formatter:D => String) =
+  def apply[D](path:Path,
+               charset:Charset,
+               isOverride:Boolean,
+               formatter:(D => String)
+                ):FileOutputter[D] =
     new FileOutputter[D](path, charset, isOverride, formatter)
+
+  def apply[D](path:String,
+               charset:Charset = Charset.defaultCharset(),
+               isOverride:Boolean = false,
+               formatter:(D => String) = (data:D) => data.toString
+                ):FileOutputter[D] =
+    apply(Paths.get(path), charset, isOverride, formatter)
 }
