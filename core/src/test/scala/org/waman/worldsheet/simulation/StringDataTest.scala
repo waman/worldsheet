@@ -3,15 +3,15 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{FlatSpec, Matchers}
 import org.waman.worldsheet.{FibonacciState, FibonacciSystem}
 
-class StringDataSimulation(fileName:String) extends StringData with NoParam{
+class StringDataSimulation(fileName:String) extends NoParam with StringData{
 
   override type State = FibonacciState
 
   override val physicalSystem = new FibonacciSystem
 
   override protected val outputters = List(
-    newConsoleOutputter(),
-    newFileOutputter(fileName, isOverride=true)
+    console(),
+    file(fileName, isOverride=true)
   )
 }
 

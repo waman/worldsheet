@@ -11,9 +11,9 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
   override type Data = Map[String, Any]
 
   //***** DataOutputter factory methods *****
-  protected def newConsoleOutputter(dataEntries:List[String] = Nil,
-                                    sep:String = " ",
-                                    pad:Int = 20):ConsoleOutputter[Data] =
+  protected def console(dataEntries:List[String] = Nil,
+                        sep:String = " ",
+                        pad:Int = 20):ConsoleOutputter[Data] =
     newConsoleOutputter(consoleDataFormatter(dataEntries, sep, pad))
 
   private def consoleDataFormatter(dataEntries:List[String],
@@ -21,27 +21,27 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
                                    pad:Int):Data => String =
     dataEntries match {
       case Nil =>
-        (data:Data) => data.values.map(form(_, pad)).mkString(sep)
+        (data:Data) => data.values.map(formatAndPad(_, pad)).mkString(sep)
       case entries:List[String] =>
-        (data:Data) => entries.map(data.get).map(form(_, pad)).mkString(sep)
+        (data:Data) => entries.map(data.get).map(formatAndPad(_, pad)).mkString(sep)
     }
 
-  private def form(value:Any, pad:Int):String = value.toString.padTo(pad, ' ')
+  private def formatAndPad(value:Any, pad:Int):String = value.toString.padTo(pad, ' ')
 
 
-  protected def newFileOutputter(path:Path,
-                                 charset:Charset,
-                                 isOverride:Boolean,
-                                 dataEntries:List[String],
-                                 sep:String):FileOutputter[Data] =
+  protected def file(path:Path,
+                     charset:Charset,
+                     isOverride:Boolean,
+                     dataEntries:List[String],
+                     sep:String):FileOutputter[Data] =
     newFileOutputter(path, charset, isOverride, fileDataFormatter(dataEntries, sep))
 
-  protected def newFileOutputter(path:String,
-                                 charset:Charset = Charset.defaultCharset(),
-                                 isOverride:Boolean = false,
-                                 dataEntries:List[String] = Nil,
-                                 sep:String = " "):FileOutputter[Data] =
-    newFileOutputter(Paths.get(path), charset, isOverride, fileDataFormatter(dataEntries, sep))
+  protected def file(fileName:String,
+                     charset:Charset = Charset.defaultCharset(),
+                     isOverride:Boolean = false,
+                     dataEntries:List[String] = Nil,
+                     sep:String):FileOutputter[Data] =
+    newFileOutputter(Paths.get(fileName), charset, isOverride, fileDataFormatter(dataEntries, sep))
 
   private def fileDataFormatter(dataEntries:List[String],
                                 sep:String):Data => String =
@@ -51,4 +51,22 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
       case entries:List[String] =>
         (data:Data) => entries.map(data.get).mkString(sep)
     }
+
+  protected def ssv(fileName:String,
+                     charset:Charset = Charset.defaultCharset(),
+                     isOverride:Boolean = false,
+                     dataEntries:List[String] = Nil):FileOutputter[Data] =
+    file(fileName, charset, isOverride, dataEntries, " ")
+
+  protected def tsv(fileName:String,
+                    charset:Charset = Charset.defaultCharset(),
+                    isOverride:Boolean = false,
+                    dataEntries:List[String] = Nil):FileOutputter[Data] =
+    file(fileName, charset, isOverride, dataEntries, "\t")
+
+  protected def csv(fileName:String,
+                    charset:Charset = Charset.defaultCharset(),
+                    isOverride:Boolean = false,
+                    dataEntries:List[String] = Nil):FileOutputter[Data] =
+    file(fileName, charset, isOverride, dataEntries, ",")
 }

@@ -26,12 +26,11 @@ class FileOutputter[D](path:Path, charset:Charset, isOverride:Boolean, formatter
   }
 
   override def dispose(): Unit = {
-    try
+    try{
       this.writer.flush()
-    catch {
-      case _:Throwable => // ignore
     }finally
-      this.writer.close()
+      if(this.writer != null)
+        this.writer.close()
   }
 }
 

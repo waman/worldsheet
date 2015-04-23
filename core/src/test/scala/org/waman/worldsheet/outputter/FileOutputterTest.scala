@@ -1,9 +1,11 @@
 package org.waman.worldsheet.outputter
 
 import org.scalatest.{FlatSpec, Matchers}
-import org.waman.worldsheet.{AbstractFibonacciSimulation, DataOutputter}
+import org.waman.worldsheet.AbstractFibonacciSimulation
+import org.waman.worldsheet.simulation.{DataOutputterFactory, StringData}
 
-class FileOutputterSimulation(fileName:String) extends AbstractFibonacciSimulation{
+class FileOutputterSimulation(fileName:String)
+    extends AbstractFibonacciSimulation with DataOutputterFactory{
 
   override protected val outputters = List(
     newConsoleOutputter(),
