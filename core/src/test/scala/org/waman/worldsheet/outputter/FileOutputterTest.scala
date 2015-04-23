@@ -5,9 +5,9 @@ import org.waman.worldsheet.{AbstractFibonacciSimulation, DataOutputter}
 
 class FileOutputterSimulation(fileName:String) extends AbstractFibonacciSimulation{
 
-  override protected val outputters: List[DataOutputter[Data]] = List(
-    ConsoleOutputter(dataFormatter),
-    FileOutputter(fileName, isOverride=true)
+  override protected val outputters = List(
+    newConsoleOutputter(),
+    newFileOutputter(fileName, isOverride=true)
   )
 }
 
