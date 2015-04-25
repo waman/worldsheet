@@ -11,8 +11,9 @@ trait DataOutputterFactory extends PhysicalSimulation{
   protected val dataFormatter:Data => String = data => data.toString
 
   //***** DataOutputter factory methods *****
-  protected def newConsoleOutputter(formatter:Data => String = this.dataFormatter):ConsoleOutputter[Data] =
-    new ConsoleOutputter[Data](formatter)
+  protected def newConsoleOutputter(header:String = "",
+                                    formatter:Data => String = this.dataFormatter):ConsoleOutputter[Data] =
+    new ConsoleOutputter[Data](header, formatter)
 
   protected def newFileOutputter(path:Path,
                                  charset:Charset,

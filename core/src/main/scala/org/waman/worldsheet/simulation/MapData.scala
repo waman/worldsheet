@@ -4,17 +4,35 @@ import java.nio.charset.Charset
 import java.nio.file.{Paths, Path}
 
 import org.waman.worldsheet.PhysicalSimulation
+import org.waman.worldsheet.observer.{ObservableSet, MapObserver}
 import org.waman.worldsheet.outputter.{FileOutputter, ConsoleOutputter}
 
 trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
   override type Data = Map[String, Any]
 
+  protected val observableSets:List[ObservableSet[State]]
+  override val observer = new MapObserver[State](observableSets)
+
+  //***** ObservableSet Factory methods *****
+  protected def observable[V](name:String, datatype:Class[V])(algorithm:State => V)
+    :ObservableSet[State] = ObservableSet.createObservable(name, datatype)(algorithm)
+
+  protected def observable(name:String)(algorithm:State => Any)
+    :ObservableSet[State] = observable[Any](name, classOf[Any])(algorithm)
+
+  protected def observableSet(names:String*)(algorithm:State => Map[String, Any])
+    :ObservableSet[State] = ObservableSet.createObservableSet(names.toSet)(algorithm)
+
+//  protected def observableSet(dataInfo:Map[String,Class[_]])(algorithm:State => Map[String, Any])
+//    :ObservableSet[State] = ObservableSet.create(dataInfo)(algorithm)
+
   //***** DataOutputter factory methods *****
   protected def console(dataEntries:List[String] = Nil,
+                        header:String = "",
                         sep:String = " ",
                         pad:Int = 20):ConsoleOutputter[Data] =
-    newConsoleOutputter(consoleDataFormatter(dataEntries, sep, pad))
+    newConsoleOutputter(header, consoleDataFormatter(dataEntries, sep, pad))
 
   private def consoleDataFormatter(dataEntries:List[String],
                                    sep:String,
@@ -53,9 +71,9 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
     }
 
   protected def ssv(fileName:String,
-                     charset:Charset = Charset.defaultCharset(),
-                     isOverride:Boolean = false,
-                     dataEntries:List[String] = Nil):FileOutputter[Data] =
+                    charset:Charset = Charset.defaultCharset(),
+                    isOverride:Boolean = false,
+                    dataEntries:List[String] = Nil):FileOutputter[Data] =
     file(fileName, charset, isOverride, dataEntries, " ")
 
   protected def tsv(fileName:String,
