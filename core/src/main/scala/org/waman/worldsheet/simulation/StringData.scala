@@ -1,7 +1,7 @@
 package org.waman.worldsheet.simulation
 
 import java.nio.charset.Charset
-import java.nio.file.{Paths, Path}
+import java.nio.file.Path
 
 import org.waman.worldsheet.PhysicalSimulation
 import org.waman.worldsheet.outputter.{ConsoleOutputter, FileOutputter}
@@ -19,12 +19,7 @@ trait StringData extends PhysicalSimulation with DataOutputterFactory{
     newConsoleOutputter(header)
 
   protected def file(path:Path,
-                     charset:Charset,
-                     isOverride:Boolean):FileOutputter[Data] =
-    newFileOutputter(path, charset, isOverride, identity[String](_))
-
-  protected def file(path:String,
                      charset:Charset = Charset.defaultCharset(),
                      isOverride:Boolean = false):FileOutputter[Data] =
-    file(Paths.get(path), charset, isOverride)
+    newFileOutputter(path, charset, isOverride, identity[String])
 }

@@ -2,7 +2,7 @@ package org.waman.worldsheet.outputter
 
 import org.scalatest.{FlatSpec, Matchers}
 import org.waman.worldsheet.AbstractFibonacciSimulation
-import org.waman.worldsheet.simulation.{DataOutputterFactory, StringData}
+import org.waman.worldsheet.simulation.DataOutputterFactory
 
 class FileOutputterSimulation(fileName:String)
     extends AbstractFibonacciSimulation with DataOutputterFactory{

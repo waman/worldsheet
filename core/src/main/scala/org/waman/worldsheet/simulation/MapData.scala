@@ -48,18 +48,11 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
 
   protected def file(path:Path,
-                     charset:Charset,
-                     isOverride:Boolean,
-                     dataEntries:List[String],
-                     sep:String):FileOutputter[Data] =
-    newFileOutputter(path, charset, isOverride, fileDataFormatter(dataEntries, sep))
-
-  protected def file(fileName:String,
                      charset:Charset = Charset.defaultCharset(),
                      isOverride:Boolean = false,
                      dataEntries:List[String] = Nil,
                      sep:String):FileOutputter[Data] =
-    newFileOutputter(Paths.get(fileName), charset, isOverride, fileDataFormatter(dataEntries, sep))
+    newFileOutputter(path, charset, isOverride, fileDataFormatter(dataEntries, sep))
 
   private def fileDataFormatter(dataEntries:List[String],
                                 sep:String):Data => String =
@@ -70,21 +63,21 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
         (data:Data) => entries.map(data.get).mkString(sep)
     }
 
-  protected def ssv(fileName:String,
+  protected def ssv(path:Path,
                     charset:Charset = Charset.defaultCharset(),
                     isOverride:Boolean = false,
                     dataEntries:List[String] = Nil):FileOutputter[Data] =
-    file(fileName, charset, isOverride, dataEntries, " ")
+    file(path, charset, isOverride, dataEntries, " ")
 
-  protected def tsv(fileName:String,
+  protected def tsv(path:Path,
                     charset:Charset = Charset.defaultCharset(),
                     isOverride:Boolean = false,
                     dataEntries:List[String] = Nil):FileOutputter[Data] =
-    file(fileName, charset, isOverride, dataEntries, "\t")
+    file(path, charset, isOverride, dataEntries, "\t")
 
-  protected def csv(fileName:String,
+  protected def csv(path:Path,
                     charset:Charset = Charset.defaultCharset(),
                     isOverride:Boolean = false,
                     dataEntries:List[String] = Nil):FileOutputter[Data] =
-    file(fileName, charset, isOverride, dataEntries, ",")
+    file(path, charset, isOverride, dataEntries, ",")
 }

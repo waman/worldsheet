@@ -1,5 +1,6 @@
 package org.waman.worldsheet.simulation
 
+import java.io.File
 import java.nio.charset.Charset
 import java.nio.file.{Paths, Path}
 
@@ -16,14 +17,13 @@ trait DataOutputterFactory extends PhysicalSimulation{
     new ConsoleOutputter[Data](header, formatter)
 
   protected def newFileOutputter(path:Path,
-                                 charset:Charset,
-                                 isOverride:Boolean,
-                                 formatter:Data => String):FileOutputter[Data] =
-    new FileOutputter[Data](path, charset, isOverride, formatter)
-
-  protected def newFileOutputter(path:String,
                                  charset:Charset = Charset.defaultCharset(),
                                  isOverride:Boolean = false,
                                  formatter:Data => String = this.dataFormatter):FileOutputter[Data] =
-    newFileOutputter(Paths.get(path), charset, isOverride, formatter)
+    new FileOutputter[Data](path, charset, isOverride, formatter)
+
+  //***** implicit transformation to Path *****
+  implicit def string2Path(fileName:String):Path = Paths.get(fileName)
+
+  implicit def file2Path(file:File):Path = file.toPath
 }
