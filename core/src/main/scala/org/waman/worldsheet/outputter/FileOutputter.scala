@@ -5,7 +5,7 @@ import java.nio.charset.Charset
 import java.nio.file.StandardOpenOption._
 import java.nio.file.{Files, Path}
 
-import org.waman.worldsheet.DataOutputter
+import org.waman.worldsheet.{SimulationUtil, DataOutputter}
 
 class FileOutputter[D](path:Path,
                        charset:Charset,
@@ -24,7 +24,7 @@ class FileOutputter[D](path:Path,
 
   override def output(data: D): Unit = {
     this.writer.write(formatter(data))
-    this.writer.write(FileOutputter.sep)
+    this.writer.write(SimulationUtil.sep)
   }
 
   override def dispose(): Unit = {
@@ -34,9 +34,4 @@ class FileOutputter[D](path:Path,
       if(this.writer != null)
         this.writer.close()
   }
-}
-
-object FileOutputter{
-
-  val sep = System.getProperty("line.separator")
 }

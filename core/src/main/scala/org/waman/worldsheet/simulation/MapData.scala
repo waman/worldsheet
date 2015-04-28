@@ -1,31 +1,37 @@
 package org.waman.worldsheet.simulation
 
 import java.nio.charset.Charset
-import java.nio.file.{Paths, Path}
+import java.nio.file.Path
 
 import org.waman.worldsheet.PhysicalSimulation
-import org.waman.worldsheet.observer.{ObservableSet, MapObserver}
-import org.waman.worldsheet.outputter.{FileOutputter, ConsoleOutputter}
+import org.waman.worldsheet.observer.{MapObserver, ObservableSet}
+import org.waman.worldsheet.outputter.{ConsoleOutputter, FileOutputter}
 
 trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
   override type Data = Map[String, Any]
 
-  protected val observableSets:List[ObservableSet[State]]
+  protected def observableSets:List[ObservableSet[State]]
   override val observer = new MapObserver[State](observableSets)
+
 
   //***** ObservableSet Factory methods *****
   protected def observable[V](name:String, datatype:Class[V])(algorithm:State => V)
     :ObservableSet[State] = ObservableSet.createObservable(name, datatype)(algorithm)
 
   protected def observable(name:String)(algorithm:State => Any)
-    :ObservableSet[State] = observable[Any](name, classOf[Any])(algorithm)
+    :ObservableSet[State] = ObservableSet.createObservable(name)(algorithm)
+
+
+  protected def observableSet(dataInfo:Map[String,Class[_]])(algorithm:State => Map[String, Any])
+    :ObservableSet[State] = ObservableSet.createObservableSet(dataInfo)(algorithm)
 
   protected def observableSet(names:String*)(algorithm:State => Map[String, Any])
-    :ObservableSet[State] = ObservableSet.createObservableSet(names.toSet)(algorithm)
+    :ObservableSet[State] = ObservableSet.createObservableSet(names:_*)(algorithm)
 
-//  protected def observableSet(dataInfo:Map[String,Class[_]])(algorithm:State => Map[String, Any])
-//    :ObservableSet[State] = ObservableSet.create(dataInfo)(algorithm)
+  protected def observableSet(algorithm:State => Map[String, Any])
+    :ObservableSet[State] = ObservableSet.createObservableSet(algorithm)
+
 
   //***** DataOutputter factory methods *****
   protected def console(dataEntries:List[String] = Nil,
