@@ -1,7 +1,7 @@
 package org.waman.worldsheet.observer
 
 /**
- * This class is stateful.
+ * This class is stateful for validation.
  */
 abstract class ObservableSetWithDataInfo[S](val dataInfo:Map[String, Class[_]])
   extends ObservableSet[S]{

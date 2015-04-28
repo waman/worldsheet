@@ -4,11 +4,10 @@ import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.OptionValues._
 import org.waman.worldsheet.FibonacciState
 
-class ObservableSetWithDataInfoTest extends FlatSpec with Matchers {
+class ObservableSetWithoutDatatypeTest extends FlatSpec with Matchers {
 
-  abstract class AbstractObservableSet extends ObservableSetWithDataInfo[FibonacciState](
-    Map("Current" -> classOf[Integer], "Next" -> classOf[BigInt])
-  )
+  abstract class AbstractObservableSet
+    extends ObservableSetWithoutDatatype[FibonacciState](Set("Current", "Next"))
 
   class WellDefinedObservableSet extends AbstractObservableSet{
     override protected def calculate(state: FibonacciState): Map[String, Any] = {
@@ -16,7 +15,7 @@ class ObservableSetWithDataInfoTest extends FlatSpec with Matchers {
     }
   }
 
-  "A ObservableSetWithDataInfo" should "be able to define well" in {
+  "A ObservableSetWithoutDatatype" should "be able to define well" in {
     val obs = new WellDefinedObservableSet
 
     obs.dataEntries should be (Set("Current", "Next"))
@@ -25,8 +24,8 @@ class ObservableSetWithDataInfoTest extends FlatSpec with Matchers {
     obs.supportDataEntry("Next") shouldBe true
     obs.supportDataEntry("current") shouldBe false
 
-    obs.getDatatype("Current").value should be (classOf[Integer])
-    obs.getDatatype("Next").value should be (classOf[BigInt])
+    obs.getDatatype("Current").value should be (classOf[Any])
+    obs.getDatatype("Next").value should be (classOf[Any])
     obs.getDatatype("current") shouldBe None
 
     // observation
@@ -46,20 +45,6 @@ class ObservableSetWithDataInfoTest extends FlatSpec with Matchers {
     val obs = new DataEntryMismatchObservableSet
 
     intercept[DataEntryMismatchException]{
-      obs.observe(FibonacciState(5, 8))
-    }
-  }
-
-  class DatatypeMismatchObservableSet extends AbstractObservableSet{
-    override protected def calculate(state: FibonacciState): Map[String, Any] = {
-      Map("Current" -> state.current, "Next" -> true)
-    }
-  }
-
-  it should "validate datatype at observation" in {
-    val obs = new DatatypeMismatchObservableSet
-
-    intercept[DatatypeMismatchException]{
       obs.observe(FibonacciState(5, 8))
     }
   }

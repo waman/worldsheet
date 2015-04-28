@@ -7,10 +7,10 @@ import java.nio.file.{Files, Path}
 
 import org.waman.worldsheet.{SimulationUtil, DataOutputter}
 
-class FileOutputter[D](path:Path,
-                       charset:Charset,
-                       isOverride:Boolean,
-                       formatter:D => String) extends DataOutputter[D]{
+class FileOutputter[D](val path:Path,
+                       val charset:Charset,
+                       val isOverride:Boolean,
+                       val formatter:D => String) extends DataOutputter[D]{
 
   private var writer:BufferedWriter = null
 
