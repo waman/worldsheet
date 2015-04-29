@@ -2,13 +2,17 @@ package org.waman.worldsheet.simulation
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.waman.worldsheet.AbstractFibonacciSimulation
-
-class ConsoleOutputSimulation extends AbstractFibonacciSimulation
-    with ConsoleOutput
+import org.waman.worldsheet.outputter.ConsoleOutputter
 
 class ConsoleOutputTest extends FlatSpec with Matchers {
 
-  "A ConsoleOutput" should "be able to define well" in {
-    new ConsoleOutputSimulation().simulateWhileState(_.current <= 100)
+  class Simulation extends AbstractFibonacciSimulation
+    with ConsoleOutput
+
+  "A ConsoleOutput" should "have only one ConsoleOutputter as outputter" in {
+    val sim = new Simulation
+
+    sim.outputter shouldBe a [ConsoleOutputter[_]]
+    sim.outputterProviders.head(()) shouldBe a [ConsoleOutputter[_]]
   }
 }
