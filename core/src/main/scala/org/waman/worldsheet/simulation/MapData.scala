@@ -36,10 +36,10 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
   //***** DataOutputter factory methods *****
   protected def console(dataEntries:List[String] = Nil,
                         header:String = "",
-                        sep:String = " ",
+                        separator:String = " ",
                         pad:Int = 20):ConsoleOutputter[Data] = {
     if(pad <= 0)throw new IllegalArgumentException("Argument \"pad\" must be greater than 1: actual "+pad)
-    newConsoleOutputter(header, consoleDataFormatter(dataEntries, sep, pad))
+    newConsoleOutputter(header, consoleDataFormatter(dataEntries, separator, pad))
   }
 
   private def consoleDataFormatter(dataEntries:List[String],
@@ -63,36 +63,36 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
 
   protected def file(path:Path,
-                     charset:Charset = Charset.defaultCharset(),
-                     isOverride:Boolean = false,
                      dataEntries:List[String] = Nil,
-                     sep:String):FileOutputter[Data] =
-    newFileOutputter(path, charset, isOverride, fileDataFormatter(dataEntries, sep))
+                     charset:Charset = Charset.defaultCharset,
+                     isOverride:Boolean = false,
+                     separator:String):FileOutputter[Data] =
+    newFileOutputter(path, charset, isOverride, fileDataFormatter(dataEntries, separator))
 
   private def fileDataFormatter(dataEntries:List[String],
-                                sep:String):Data => String =
+                                separator:String):Data => String =
     dataEntries match {
       case Nil =>
-        data => data.values.mkString(sep)
+        data => data.values.mkString(separator)
       case entries:List[String] =>
-        data => entries.map(data(_)).mkString(sep)
+        data => entries.map(data(_)).mkString(separator)
     }
 
   protected def ssv(path:Path,
-                    charset:Charset = Charset.defaultCharset(),
-                    isOverride:Boolean = false,
-                    dataEntries:List[String] = Nil):FileOutputter[Data] =
-    file(path, charset, isOverride, dataEntries, " ")
+                    dataEntries:List[String] = Nil,
+                    charset:Charset = Charset.defaultCharset,
+                    isOverride:Boolean = false):FileOutputter[Data] =
+    file(path, dataEntries, charset, isOverride, " ")
 
   protected def tsv(path:Path,
-                    charset:Charset = Charset.defaultCharset(),
-                    isOverride:Boolean = false,
-                    dataEntries:List[String] = Nil):FileOutputter[Data] =
-    file(path, charset, isOverride, dataEntries, "\t")
+                    dataEntries:List[String] = Nil,
+                    charset:Charset = Charset.defaultCharset,
+                    isOverride:Boolean = false):FileOutputter[Data] =
+    file(path, dataEntries, charset, isOverride, "\t")
 
   protected def csv(path:Path,
-                    charset:Charset = Charset.defaultCharset(),
-                    isOverride:Boolean = false,
-                    dataEntries:List[String] = Nil):FileOutputter[Data] =
-    file(path, charset, isOverride, dataEntries, ",")
+                    dataEntries:List[String] = Nil,
+                    charset:Charset = Charset.defaultCharset,
+                    isOverride:Boolean = false):FileOutputter[Data] =
+    file(path, dataEntries, charset, isOverride, ",")
 }

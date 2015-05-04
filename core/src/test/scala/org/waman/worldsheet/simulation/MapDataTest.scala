@@ -1,9 +1,12 @@
 package org.waman.worldsheet.simulation
 
+import java.nio.charset.Charset
+import java.nio.file.Paths
+
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.OptionValues._
 import org.waman.worldsheet.observer.{ObservableSet, Observable, MapObserver}
-import org.waman.worldsheet.outputter.ConsoleOutputter
+import org.waman.worldsheet.outputter.{FileOutputter, ConsoleOutputter}
 import org.waman.worldsheet.{DataOutputter, PhysicalSimulation, FibonacciState, FibonacciSystem}
 
 class MapDataTest extends FlatSpec with Matchers {
@@ -113,23 +116,23 @@ class MapDataTest extends FlatSpec with Matchers {
     )
   }
 
-  //***** ConsoleOutputter
-  private def extractConsoleOutputter(sim:SampleSimulationForDataOutputter):ConsoleOutputter[Map[String,Any]] = {
-    sim.outputter shouldBe a [ConsoleOutputter[_]]
-    sim.outputter.asInstanceOf[ConsoleOutputter[Map[String,Any]]]
-  }
-
-
-  it should "create ConsoleOutputter by console() : all data entries are outputted when 'dataEntries' is not specified" in {
-    val sim = new SampleSimulationForDataOutputter {
-      override val outputter: DataOutputter[Data] = console()
+  //*** ConsoleOutputter
+    private def extractConsoleOutputter(sim:SampleSimulationForDataOutputter):ConsoleOutputter[Map[String,Any]] = {
+      sim.outputter shouldBe a [ConsoleOutputter[_]]
+      sim.outputter.asInstanceOf[ConsoleOutputter[Map[String,Any]]]
     }
+
+
+    it should "create ConsoleOutputter by console() : all data entries are outputted when 'dataEntries' is not specified" in {
+      val sim = new SampleSimulationForDataOutputter {
+        override val outputter: DataOutputter[Data] = console()
+      }
 
     val formatter = extractConsoleOutputter(sim).formatter
     formatter(Map("current" -> 0, "next" -> 1)) shouldBe ( (" "*19) + "0" + (" "*20) + "1")
   }
   
-  it should "create ConsoleOutputter by console(List) with dataEntries specified" in {
+  it should "create ConsoleOutputter by console(dataEntries:List) with dataEntries specified" in {
     val sim = new SampleSimulationForDataOutputter {
       override val outputter: DataOutputter[Data] = console(List("current"))
     }
@@ -156,7 +159,7 @@ class MapDataTest extends FlatSpec with Matchers {
     formatter(Map("current" -> 123456789)) shouldBe "1234_"
   }
 
-  it should "throw IllegalArgumentException console(pad=...) with non-positive number" in {
+  it should "throw IllegalArgumentException when console(pad=...) with non-positive number" in {
     an [IllegalArgumentException] should be thrownBy {
       val sim = new SampleSimulationForDataOutputter {
         override val outputter: DataOutputter[Data] = console(List("current"), pad = 0)
@@ -164,5 +167,136 @@ class MapDataTest extends FlatSpec with Matchers {
     }
   }
 
-  //***** FileOutputter
+  //*** FileOutputter
+  private def extractFileOutputter(sim:SampleSimulationForDataOutputter):FileOutputter[Map[String,Any]] = {
+    sim.outputter shouldBe a [FileOutputter[_]]
+    sim.outputter.asInstanceOf[FileOutputter[Map[String,Any]]]
+  }
+
+
+  it should "create FileOutputter by file(Path, String) : all data entries are outputted when 'dataEntries' is not specified" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = file("log.txt", separator=":")
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.txt")),
+      'charset (Charset.defaultCharset),
+      'override (false)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0:1"
+  }
+
+  it should "create ConsoleOutputter by file(Path, List, String) with dataEntries specified" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = file("log.txt", List("current"), separator=":")
+    }
+
+    val formatter = extractFileOutputter(sim).formatter
+    formatter(Map("current" -> 0)) shouldBe "0"
+  }
+
+  it should "create ConsoleOutputter by file(Path, List, String, String, Int) : full arguments" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] =
+        file("log.txt", List("current", "next"), Charset.forName("UTF-8"), isOverride=true, "-")
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have (
+      'path (Paths.get("log.txt")),
+      'charset (Charset.forName("UTF-8")),
+      'override (true)
+    )
+    outputter.formatter(Map("current" -> 1, "next" -> 2)) shouldBe "1-2"
+  }
+
+  //*** ssv, tsv, csv
+  it should "create FileOutputter by ssv(Path)" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = ssv("log.ssv")
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.ssv")),
+      'charset (Charset.defaultCharset),
+      'override (false)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0 1"
+  }
+
+  it should "create FileOutputter by ssv(Path, List, Charset, Boolean) : full arguments" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] =
+        ssv("log.ssv", List("current", "next"), Charset.forName("UTF-8"), isOverride=true)
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.ssv")),
+      'charset (Charset.defaultCharset),
+      'override (true)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0 1"
+  }
+
+  it should "create FileOutputter by tsv(Path)" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = tsv("log.tsv")
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.tsv")),
+      'charset (Charset.defaultCharset),
+      'override (false)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0\t1"
+  }
+
+  it should "create FileOutputter by tsv(Path, List, Charset, Boolean) : full arguments" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] =
+        tsv("log.tsv", List("current", "next"), Charset.forName("UTF-8"), isOverride=true)
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.tsv")),
+      'charset (Charset.defaultCharset),
+      'override (true)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0\t1"
+  }
+
+  it should "create FileOutputter by csv(Path)" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = csv("log.csv")
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.csv")),
+      'charset (Charset.defaultCharset),
+      'override (false)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0,1"
+  }
+
+  it should "create FileOutputter by csv(Path, List, Charset, Boolean) : full arguments" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] =
+        csv("log.csv", List("current", "next"), Charset.forName("UTF-8"), isOverride=true)
+    }
+
+    val outputter = extractFileOutputter(sim)
+    outputter should have(
+      'path (Paths.get("log.csv")),
+      'charset (Charset.defaultCharset),
+      'override (true)
+    )
+    outputter.formatter(Map("current" -> 0, "next" -> 1)) shouldBe "0,1"
+  }
 }
