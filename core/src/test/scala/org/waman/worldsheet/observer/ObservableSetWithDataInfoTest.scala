@@ -10,14 +10,12 @@ class ObservableSetWithDataInfoTest extends FlatSpec with Matchers {
     Map("Current" -> classOf[Integer], "Next" -> classOf[BigInt])
   )
 
-  class WellDefinedObservableSet extends AbstractObservableSet{
-    override protected def calculate(state: FibonacciState): Map[String, Any] = {
-      Map("Current" -> state.current, "Next" -> BigInt(state.next))
-    }
-  }
-
   "A ObservableSetWithDataInfo" should "be able to define well" in {
-    val obs = new WellDefinedObservableSet
+    val obs = new AbstractObservableSet{
+      override protected def calculate(state: FibonacciState): Map[String, Any] = {
+        Map("Current" -> state.current, "Next" -> BigInt(state.next))
+      }
+    }
 
     obs.dataEntries should be (Set("Current", "Next"))
 
@@ -36,31 +34,41 @@ class ObservableSetWithDataInfoTest extends FlatSpec with Matchers {
     result.get("current") shouldBe None
   }
 
-  class DataEntryMismatchObservableSet extends AbstractObservableSet{
-    override protected def calculate(state: FibonacciState): Map[String, Any] = {
-      Map("current" -> state.current, "next" -> BigInt(state.next))
-    }
-  }
-
   it should "validate data entries at observation" in {
-    val obs = new DataEntryMismatchObservableSet
+    val obs = new AbstractObservableSet{
+      override protected def calculate(state: FibonacciState): Map[String, Any] = {
+        Map("current" -> state.current, "next" -> BigInt(state.next))
+      }
+    }
 
     intercept[DataEntryMismatchException]{
       obs.observe(FibonacciState(5, 8))
     }
   }
 
-  class DatatypeMismatchObservableSet extends AbstractObservableSet{
-    override protected def calculate(state: FibonacciState): Map[String, Any] = {
-      Map("Current" -> state.current, "Next" -> true)
-    }
-  }
-
   it should "validate datatype at observation" in {
-    val obs = new DatatypeMismatchObservableSet
+    val obs = new AbstractObservableSet{
+      override protected def calculate(state: FibonacciState): Map[String, Any] = {
+        Map("Current" -> state.current, "Next" -> true)
+      }
+    }
 
     intercept[DatatypeMismatchException]{
       obs.observe(FibonacciState(5, 8))
+    }
+  }
+
+  it should "throw Exception when null or empty map is passed" in {
+    an [IllegalArgumentException] should be thrownBy{
+      new ObservableSetWithDataInfo[FibonacciState](null) {
+        override protected def calculate(state: FibonacciState): Map[String, Any] = Map.empty
+      }
+    }
+
+    an [IllegalArgumentException] should be thrownBy{
+      new ObservableSetWithDataInfo[FibonacciState](Map.empty) {
+        override protected def calculate(state: FibonacciState): Map[String, Any] = Map.empty
+      }
     }
   }
 }

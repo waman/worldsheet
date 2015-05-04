@@ -14,7 +14,7 @@ trait DataOutputterFactory extends PhysicalSimulation{
   //***** DataOutputter factory methods *****
   protected def newConsoleOutputter(header:String = "",
                                     formatter:Data => String = this.dataFormatter):ConsoleOutputter[Data] =
-    new ConsoleOutputter[Data](header, formatter)
+    ConsoleOutputter[Data](header, formatter)
 
   protected def newFileOutputter(path:Path,
                                  charset:Charset = Charset.defaultCharset(),

@@ -37,20 +37,29 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
   protected def console(dataEntries:List[String] = Nil,
                         header:String = "",
                         sep:String = " ",
-                        pad:Int = 20):ConsoleOutputter[Data] =
+                        pad:Int = 20):ConsoleOutputter[Data] = {
+    if(pad <= 0)throw new IllegalArgumentException("Argument \"pad\" must be greater than 1: actual "+pad)
     newConsoleOutputter(header, consoleDataFormatter(dataEntries, sep, pad))
+  }
 
   private def consoleDataFormatter(dataEntries:List[String],
                                    sep:String,
                                    pad:Int):Data => String =
     dataEntries match {
       case Nil =>
-        (data:Data) => data.values.map(formatAndPad(_, pad)).mkString(sep)
+        data => data.values.map(formatAndPad(_, pad)).mkString(sep)
       case entries:List[String] =>
-        (data:Data) => entries.map(data.get).map(formatAndPad(_, pad)).mkString(sep)
+        data => entries.map(data(_)).map(formatAndPad(_, pad)).mkString(sep)
     }
 
-  private def formatAndPad(value:Any, pad:Int):String = value.toString.padTo(pad, ' ')
+  private def formatAndPad(value:Any, pad:Int):String = {
+    val s = value.toString
+    s.length match {
+      case n if n == pad => s
+      case n if n <  pad => (" " * (pad - s.length)) + s
+      case n if n >  pad => s.substring(0, pad-1)+"_"
+    }
+  }
 
 
   protected def file(path:Path,
@@ -64,9 +73,9 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
                                 sep:String):Data => String =
     dataEntries match {
       case Nil =>
-        (data:Data) => data.values.mkString(sep)
+        data => data.values.mkString(sep)
       case entries:List[String] =>
-        (data:Data) => entries.map(data.get).mkString(sep)
+        data => entries.map(data(_)).mkString(sep)
     }
 
   protected def ssv(path:Path,

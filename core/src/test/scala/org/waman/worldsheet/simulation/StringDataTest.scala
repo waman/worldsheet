@@ -46,19 +46,19 @@ class StringDataTest extends FlatSpec with Matchers {
     out shouldBe a [ConsoleOutputter[_]]
 
     val console = out.asInstanceOf[ConsoleOutputter[String]]
-    console.header shouldBe ""
+    console.formatter("string") shouldBe "string"
   }
 
   it should "create ConsoleOutputter with header by console(header:String)" in {
     val sim = new StringDataSimulation {
-      override protected def outputters = List(console("[header] "))
+      override protected def outputters = List(console("[header]"))
     }
 
     val out = sim.outputterProviders.head(())
     out shouldBe a [ConsoleOutputter[_]]
 
     val console = out.asInstanceOf[ConsoleOutputter[String]]
-    console.header shouldBe "[header] "
+    console.formatter("string") shouldBe "[header] string"
   }
 
   it should "create FileOutputter by file(fileName:String)" in {

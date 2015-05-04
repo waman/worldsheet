@@ -105,18 +105,64 @@ class MapDataTest extends FlatSpec with Matchers {
   //***** DataOutputter *****
   abstract class SampleSimulationForDataOutputter
       extends SampleSimulationForObserver with OneOutput {
+
     override protected def observableSets: List[ObservableSet[State]] = List(
-      observable("value", classOf[Integer]) { s => s.current }
+      observableSet(Map("current" -> classOf[Integer], "next" -> classOf[Integer])) {
+        s => Map("current" -> s.current, "next" -> s.next)
+      }
     )
   }
-  
-  it should "create ConsoleOutputter by console method" in {
+
+  //***** ConsoleOutputter
+  private def extractConsoleOutputter(sim:SampleSimulationForDataOutputter):ConsoleOutputter[Map[String,Any]] = {
+    sim.outputter shouldBe a [ConsoleOutputter[_]]
+    sim.outputter.asInstanceOf[ConsoleOutputter[Map[String,Any]]]
+  }
+
+
+  it should "create ConsoleOutputter by console() : all data entries are outputted when 'dataEntries' is not specified" in {
     val sim = new SampleSimulationForDataOutputter {
-      override val outputter: DataOutputter[Data] = console(List("value"), "[header] ", ", ", 10)
+      override val outputter: DataOutputter[Data] = console()
     }
 
-    val console = sim.outputter
-    console shouldBe a [ConsoleOutputter[_]]
-    console should have ( 'header ("[header] ") )
+    val formatter = extractConsoleOutputter(sim).formatter
+    formatter(Map("current" -> 0, "next" -> 1)) shouldBe ( (" "*19) + "0" + (" "*20) + "1")
   }
+  
+  it should "create ConsoleOutputter by console(List) with dataEntries specified" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = console(List("current"))
+    }
+
+    val formatter = extractConsoleOutputter(sim).formatter
+    formatter(Map("current" -> 0)) shouldBe ( (" "*19) + "0" )
+  }
+
+  it should "create ConsoleOutputter by console(List, String, String, Int) : full arguments" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = console(List("current", "next"), "[header]", ", ", 10)
+    }
+
+    val formatter = extractConsoleOutputter(sim).formatter
+    formatter(Map("current" -> 1, "next" -> 2)) shouldBe "[header]          1,          2"
+  }
+
+  it should "create ConsoleOutputter by console(pad=...) : short padding" in {
+    val sim = new SampleSimulationForDataOutputter {
+      override val outputter: DataOutputter[Data] = console(List("current"), pad=5)
+    }
+
+    val formatter = extractConsoleOutputter(sim).formatter
+    formatter(Map("current" -> 123456789)) shouldBe "1234_"
+  }
+
+  it should "throw IllegalArgumentException console(pad=...) with non-positive number" in {
+    an [IllegalArgumentException] should be thrownBy {
+      val sim = new SampleSimulationForDataOutputter {
+        override val outputter: DataOutputter[Data] = console(List("current"), pad = 0)
+      }
+    }
+  }
+
+  //***** FileOutputter
 }
