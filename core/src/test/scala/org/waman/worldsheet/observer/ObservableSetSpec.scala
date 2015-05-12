@@ -4,7 +4,7 @@ import org.scalatest.{OptionValues, Matchers, FlatSpec}
 import org.waman.worldsheet.FibonacciState
 import OptionValues._
 
-class ObservableSetTest extends FlatSpec with Matchers{
+class ObservableSetSpec extends FlatSpec with Matchers{
 
   "A ObservableSet" should "create ObservableSetWithDataInfo for Map and Function" in {
     val obs = ObservableSet.createObservableSet(Map("Current" -> classOf[Integer], "Next" -> classOf[Integer])){

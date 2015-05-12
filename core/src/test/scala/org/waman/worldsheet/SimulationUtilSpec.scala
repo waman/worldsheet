@@ -3,7 +3,7 @@ package org.waman.worldsheet
 import org.scalatest.{FlatSpec, Matchers}
 
 
-class SimulationUtilTest extends FlatSpec with Matchers {
+class SimulationUtilSpec extends FlatSpec with Matchers {
 
   "A SimulationUtil" should "join a seq of strings with quotation" in {
     SimulationUtil.quotedJoin(Seq("abc", "def", "ghi")) should be ("\"abc\", \"def\", \"ghi\"")

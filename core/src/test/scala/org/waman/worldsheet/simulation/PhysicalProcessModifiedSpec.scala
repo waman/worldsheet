@@ -3,7 +3,7 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{Matchers, FlatSpec}
 import org.waman.worldsheet.AbstractFibonacciSimulation
 
-class PhysicalProcessModifiedTest extends FlatSpec with Matchers {
+class PhysicalProcessModifiedSpec extends FlatSpec with Matchers {
 
   "A PhysicalProcessModified" should "be able to define well" in {
 

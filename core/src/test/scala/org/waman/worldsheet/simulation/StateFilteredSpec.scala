@@ -3,7 +3,7 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{FlatSpec, Matchers}
 import org.waman.worldsheet.AbstractFibonacciSimulation
 
-class StateFilteredTest extends FlatSpec with Matchers {
+class StateFilteredSpec extends FlatSpec with Matchers {
 
   "A FilterState" should "be able to define well" in {
 

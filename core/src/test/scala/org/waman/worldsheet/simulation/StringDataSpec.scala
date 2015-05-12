@@ -8,7 +8,7 @@ import org.waman.worldsheet.outputter.{ConsoleOutputter, FileOutputter}
 import org.waman.worldsheet.{FibonacciState, FibonacciSystem, PhysicalSimulation}
 
 
-class StringDataTest extends FlatSpec with Matchers {
+class StringDataSpec extends FlatSpec with Matchers {
 
   abstract class StringDataSimulation extends PhysicalSimulation
       with NoParam with StringData{

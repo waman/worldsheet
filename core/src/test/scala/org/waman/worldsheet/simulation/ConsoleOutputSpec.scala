@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import org.waman.worldsheet.AbstractFibonacciSimulation
 import org.waman.worldsheet.outputter.ConsoleOutputter
 
-class ConsoleOutputTest extends FlatSpec with Matchers {
+class ConsoleOutputSpec extends FlatSpec with Matchers {
 
   class Simulation extends AbstractFibonacciSimulation
     with ConsoleOutput

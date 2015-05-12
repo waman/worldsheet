@@ -13,7 +13,7 @@ class GeneralizedFibonacciSystem extends PhysicalSystem{
   def newStateEvolver(param: (Int, Int)) = s => FibonacciState(s.next, s.current + s.next)
 }
 
-class PhysicalSystemTest extends FlatSpec with Matchers {
+class PhysicalSystemSpec extends FlatSpec with Matchers {
 
   "A PhysicalSystem" should "be able to define well" in {
     val series = new GeneralizedFibonacciSystem().newPhysicalProcess(1, 2)

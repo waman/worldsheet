@@ -9,7 +9,7 @@ import org.waman.worldsheet.observer.{ObservableSet, Observable, MapObserver}
 import org.waman.worldsheet.outputter.{FileOutputter, ConsoleOutputter}
 import org.waman.worldsheet.{DataOutputter, PhysicalSimulation, FibonacciState, FibonacciSystem}
 
-class MapDataTest extends FlatSpec with Matchers {
+class MapDataSpec extends FlatSpec with Matchers {
 
   //***** ObservableSet *****
   abstract class SampleSimulationForObserver extends PhysicalSimulation with NoParam with MapData{

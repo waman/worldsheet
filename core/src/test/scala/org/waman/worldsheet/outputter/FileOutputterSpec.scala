@@ -5,7 +5,7 @@ import java.nio.file.{FileAlreadyExistsException, Files}
 import scala.collection.JavaConversions._
 import org.scalatest.{FlatSpec, Matchers}
 
-class FileOutputterTest extends FlatSpec with Matchers {
+class FileOutputterSpec extends FlatSpec with Matchers {
 
   val dir = Files.createTempDirectory("FileOutputterTest-")
 

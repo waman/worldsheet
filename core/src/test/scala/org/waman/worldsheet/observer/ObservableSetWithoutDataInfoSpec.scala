@@ -3,7 +3,7 @@ package org.waman.worldsheet.observer
 import org.scalatest.{Matchers, FlatSpec}
 import org.waman.worldsheet.FibonacciState
 
-class ObservableSetWithoutDataInfoTest extends FlatSpec with Matchers {
+class ObservableSetWithoutDataInfoSpec extends FlatSpec with Matchers {
 
   class WellDefinedObservableSet extends ObservableSetWithoutDataInfo[FibonacciState]{
     override def apply(state: FibonacciState): Map[String, Any] = {

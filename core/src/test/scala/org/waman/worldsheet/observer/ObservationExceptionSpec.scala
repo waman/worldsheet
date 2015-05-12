@@ -2,7 +2,7 @@ package org.waman.worldsheet.observer
 
 import org.scalatest.{FlatSpec, Matchers}
 
-class ObservationExceptionTest extends FlatSpec with Matchers {
+class ObservationExceptionSpec extends FlatSpec with Matchers {
 
   "A DataEntryMismatchException" should "return desirable error message for too mach observation" in {
     val obs = new DataEntryMismatchException(Set("Current"), Set("Current", "Next"))

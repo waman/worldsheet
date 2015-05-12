@@ -3,7 +3,7 @@ package org.waman.worldsheet.simulation
 import org.scalatest.{Matchers, FlatSpec}
 import org.waman.worldsheet.AbstractFibonacciSimulation
 
-class DataSeqModifiedTest extends FlatSpec with Matchers {
+class DataSeqModifiedSpec extends FlatSpec with Matchers {
 
   "A DataSeqModified" should "be able to define well" in {
 

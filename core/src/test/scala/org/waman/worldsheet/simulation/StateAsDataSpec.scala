@@ -5,7 +5,7 @@ import org.waman.worldsheet.system.SystemNoParam
 import org.waman.worldsheet.{FibonacciState, PhysicalSystem, PhysicalSimulation}
 
 
-class StateAsDataTest extends FlatSpec with Matchers {
+class StateAsDataSpec extends FlatSpec with Matchers {
   
   class Simulation extends PhysicalSimulation
       with StateAsData with NoParam{
