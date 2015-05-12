@@ -5,14 +5,13 @@ import java.nio.file.Path
 
 import org.waman.worldsheet.PhysicalSimulation
 import org.waman.worldsheet.outputter.{ConsoleOutputter, FileOutputter}
+import org.waman.worldsheet.SimulationUtil.defaultFormatter
 
 trait StringData extends PhysicalSimulation with DataOutputterFactory{
 
   override type Data = String
 
-  override val observer = (state:State) => formatState(state)
-
-  protected def formatState(state:State):String = state.toString
+  override val observer = defaultFormatter[State]
 
   //***** DataOutputter factory methods *****
   protected def console(header:String = ""):ConsoleOutputter[Data] =

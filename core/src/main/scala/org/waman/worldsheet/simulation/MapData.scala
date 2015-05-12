@@ -16,21 +16,21 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
 
   //***** ObservableSet Factory methods *****
-  protected def observable[V](name:String, datatype:Class[V])(algorithm:State => V)
-    :ObservableSet[State] = ObservableSet.createObservable(name, datatype)(algorithm)
-
-  protected def observable(name:String)(algorithm:State => Any)
-    :ObservableSet[State] = ObservableSet.createObservable(name)(algorithm)
-
-
   protected def observableSet(dataInfo:Map[String,Class[_]])(algorithm:State => Map[String, Any])
-    :ObservableSet[State] = ObservableSet.createObservableSet(dataInfo)(algorithm)
+  :ObservableSet[State] = ObservableSet.createObservableSet(dataInfo)(algorithm)
 
   protected def observableSet(names:String*)(algorithm:State => Map[String, Any])
-    :ObservableSet[State] = ObservableSet.createObservableSet(names:_*)(algorithm)
+  :ObservableSet[State] = ObservableSet.createObservableSet(names:_*)(algorithm)
 
   protected def observableSet(algorithm:State => Map[String, Any])
-    :ObservableSet[State] = ObservableSet.createObservableSet(algorithm)
+  :ObservableSet[State] = ObservableSet.createObservableSet(algorithm)
+
+
+  protected def observable[V](name:String, datatype:Class[V])(algorithm:State => V)
+  :ObservableSet[State] = ObservableSet.createObservable(name, datatype)(algorithm)
+
+  protected def observable(name:String)(algorithm:State => Any)
+  :ObservableSet[State] = ObservableSet.createObservable(name)(algorithm)
 
 
   //***** DataOutputter factory methods *****

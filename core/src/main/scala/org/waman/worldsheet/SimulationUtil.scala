@@ -3,6 +3,8 @@ package org.waman.worldsheet
 object SimulationUtil {
 
   val sep = System.getProperty("line.separator")
+  
+  def defaultFormatter[A]:A => String = any => any.toString
 
 
   def quotedJoin(names:Set[String]):String = quotedJoin(names.toSeq)

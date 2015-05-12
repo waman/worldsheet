@@ -25,11 +25,10 @@ class StringDataTest extends FlatSpec with Matchers {
     observer(FibonacciState(5, 8)) shouldBe FibonacciState(5, 8).toString
   }
 
-  it should "be able to customize observation by overriding formatState method" in {
+  it should "be able to customize observation by overriding observer" in {
     val sim = new StringDataSimulation{
-      override protected def formatState(state:FibonacciState):String = {
-        "(" + state.current + ", " + state.next + ")"
-      }
+      override val observer = (s:FibonacciState) =>
+        "(" + s.current + ", " + s.next + ")"
     }
     val observer = sim.observer
 

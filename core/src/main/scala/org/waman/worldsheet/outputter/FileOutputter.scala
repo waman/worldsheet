@@ -4,13 +4,14 @@ import java.io.BufferedWriter
 import java.nio.charset.Charset
 import java.nio.file.StandardOpenOption._
 import java.nio.file.{Files, Path}
+import org.waman.worldsheet.SimulationUtil.defaultFormatter
 
 import org.waman.worldsheet.{SimulationUtil, DataOutputter}
 
 class FileOutputter[D](val path:Path,
-                       val charset:Charset,
-                       val isOverride:Boolean,
-                       val formatter:D => String) extends DataOutputter[D]{
+                       val charset:Charset = Charset.defaultCharset,
+                       val isOverride:Boolean = false,
+                       val formatter:D => String = defaultFormatter) extends DataOutputter[D]{
 
   private var writer:BufferedWriter = null
 

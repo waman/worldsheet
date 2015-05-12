@@ -1,8 +1,9 @@
 package org.waman.worldsheet.outputter
 
 import org.waman.worldsheet.DataOutputter
+import org.waman.worldsheet.SimulationUtil.defaultFormatter
 
-class ConsoleOutputter[D](val formatter:D => String) extends DataOutputter[D]{
+class ConsoleOutputter[D](val formatter:D => String = defaultFormatter) extends DataOutputter[D]{
 
   def prepare(): Unit = ()
 
@@ -16,11 +17,11 @@ class ConsoleOutputter[D](val formatter:D => String) extends DataOutputter[D]{
 
 object ConsoleOutputter{
 
-  def apply[D](header:String, formatter:D => String):ConsoleOutputter[D] =  header match{
+  def apply[D](header:String, formatter:D => String = defaultFormatter):ConsoleOutputter[D] =  header match{
     case null =>
-      new ConsoleOutputter[D](data => formatter(data))
+      new ConsoleOutputter[D](formatter)
     case "" =>
-      new ConsoleOutputter[D](data => formatter(data))
+      new ConsoleOutputter[D](formatter)
     case h =>
       new ConsoleOutputter[D](data => h + " " + formatter(data))
   }
