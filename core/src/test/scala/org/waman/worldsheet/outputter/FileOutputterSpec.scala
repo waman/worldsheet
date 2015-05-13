@@ -83,4 +83,34 @@ class FileOutputterSpec extends FlatSpec with Matchers {
 
     Files.readAllLines(path, Charset.forName("EUC_JP")) shouldBe javaList("あいうえお", "かきくけこ")
   }
+
+  // Formatter property
+  it should "write down data with default data formatter" in {
+    val path = dir.resolve("defaultDataFormatter.txt")
+    assume(Files.notExists(path))
+
+    withFileOutputter(new FileOutputter[Map[String,Any]](path/*, formatter = SimulationUtil.defaultFormatter*/)){ out =>
+      out.output(Map("current" -> 0, "next" -> 1))
+      out.output(Map("current" -> 1, "next" -> 2))
+    }
+
+    Files.readAllLines(path) shouldBe javaList(
+      "Map(current -> 0, next -> 1)",
+      "Map(current -> 1, next -> 2)"
+    )
+  }
+
+  it should "write down data with the specified data formatter" in {
+    val path = dir.resolve("specifiedDataFormatter.txt")
+    assume(Files.notExists(path))
+
+    val formatter = (map:Map[String,Any]) => map.values.mkString(", ")
+
+    withFileOutputter(new FileOutputter[Map[String,Any]](path, formatter = formatter)){ out =>
+      out.output(Map("current" -> 0, "next" -> 1))
+      out.output(Map("current" -> 1, "next" -> 2))
+    }
+
+    Files.readAllLines(path) shouldBe javaList("0, 1", "1, 2")
+  }
 }
