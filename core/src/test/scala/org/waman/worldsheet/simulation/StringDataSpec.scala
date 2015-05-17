@@ -74,7 +74,7 @@ class StringDataSpec extends FlatSpec with Matchers {
 
   it should "create FileOutputter by file(fileName:String, charset, isOverride, )" in {
     val sim = new StringDataSimulation {
-      override protected def outputters = List(file("log2.txt", Charset.forName("UTF-8"), isOverride=true))
+      override protected def outputters = List(file("log2.txt", isOverride=true, Charset.forName("UTF-8")))
     }
 
     val out = sim.outputterProviders.head(())

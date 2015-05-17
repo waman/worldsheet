@@ -20,7 +20,7 @@ trait DataOutputterFactory extends PhysicalSimulation{
                                  charset:Charset = Charset.defaultCharset(),
                                  isOverride:Boolean = false,
                                  formatter:Data => String = this.dataFormatter):FileOutputter[Data] =
-    new FileOutputter[Data](path, charset, isOverride, formatter)
+    new FileOutputter[Data](path, isOverride, charset, formatter)
 
   //***** implicit transformation to Path *****
   implicit def string2Path(fileName:String):Path = Paths.get(fileName)

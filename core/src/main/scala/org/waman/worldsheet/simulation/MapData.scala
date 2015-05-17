@@ -64,8 +64,8 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
   protected def file(path:Path,
                      dataEntries:List[String] = Nil,
-                     charset:Charset = Charset.defaultCharset,
                      isOverride:Boolean = false,
+                     charset:Charset = Charset.defaultCharset,
                      separator:String):FileOutputter[Data] =
     newFileOutputter(path, charset, isOverride, fileDataFormatter(dataEntries, separator))
 
@@ -80,19 +80,19 @@ trait MapData extends PhysicalSimulation with DataOutputterFactory{
 
   protected def ssv(path:Path,
                     dataEntries:List[String] = Nil,
-                    charset:Charset = Charset.defaultCharset,
-                    isOverride:Boolean = false):FileOutputter[Data] =
-    file(path, dataEntries, charset, isOverride, " ")
+                    isOverride:Boolean = false,
+                    charset:Charset = Charset.defaultCharset):FileOutputter[Data] =
+    file(path, dataEntries, isOverride, charset, " ")
 
   protected def tsv(path:Path,
                     dataEntries:List[String] = Nil,
-                    charset:Charset = Charset.defaultCharset,
-                    isOverride:Boolean = false):FileOutputter[Data] =
-    file(path, dataEntries, charset, isOverride, "\t")
+                    isOverride:Boolean = false,
+                    charset:Charset = Charset.defaultCharset):FileOutputter[Data] =
+    file(path, dataEntries, isOverride, charset, "\t")
 
   protected def csv(path:Path,
                     dataEntries:List[String] = Nil,
-                    charset:Charset = Charset.defaultCharset,
-                    isOverride:Boolean = false):FileOutputter[Data] =
-    file(path, dataEntries, charset, isOverride, ",")
+                    isOverride:Boolean = false,
+                    charset:Charset = Charset.defaultCharset):FileOutputter[Data] =
+    file(path, dataEntries, isOverride, charset, ",")
 }

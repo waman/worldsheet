@@ -200,7 +200,7 @@ class MapDataSpec extends FlatSpec with Matchers {
   it should "create ConsoleOutputter by file(Path, List, String, String, Int) : full arguments" in {
     val sim = new SampleSimulationForDataOutputter {
       override val outputter: DataOutputter[Data] =
-        file("log.txt", List("current", "next"), Charset.forName("UTF-8"), isOverride=true, "-")
+        file("log.txt", List("current", "next"), isOverride=true, Charset.forName("UTF-8"), "-")
     }
 
     val outputter = extractFileOutputter(sim)
@@ -230,7 +230,7 @@ class MapDataSpec extends FlatSpec with Matchers {
   it should "create FileOutputter by ssv(Path, List, Charset, Boolean) : full arguments" in {
     val sim = new SampleSimulationForDataOutputter {
       override val outputter: DataOutputter[Data] =
-        ssv("log.ssv", List("current", "next"), Charset.forName("UTF-8"), isOverride=true)
+        ssv("log.ssv", List("current", "next"), isOverride=true, Charset.forName("UTF-8"))
     }
 
     val outputter = extractFileOutputter(sim)
@@ -259,7 +259,7 @@ class MapDataSpec extends FlatSpec with Matchers {
   it should "create FileOutputter by tsv(Path, List, Charset, Boolean) : full arguments" in {
     val sim = new SampleSimulationForDataOutputter {
       override val outputter: DataOutputter[Data] =
-        tsv("log.tsv", List("current", "next"), Charset.forName("UTF-8"), isOverride=true)
+        tsv("log.tsv", List("current", "next"), isOverride=true, Charset.forName("UTF-8"))
     }
 
     val outputter = extractFileOutputter(sim)
@@ -288,7 +288,7 @@ class MapDataSpec extends FlatSpec with Matchers {
   it should "create FileOutputter by csv(Path, List, Charset, Boolean) : full arguments" in {
     val sim = new SampleSimulationForDataOutputter {
       override val outputter: DataOutputter[Data] =
-        csv("log.csv", List("current", "next"), Charset.forName("UTF-8"), isOverride=true)
+        csv("log.csv", List("current", "next"), isOverride=true, Charset.forName("UTF-8"))
     }
 
     val outputter = extractFileOutputter(sim)
